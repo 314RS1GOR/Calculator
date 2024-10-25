@@ -1,0 +1,49 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid red;
+}
+
+.calculatorTop{
+    display: flex;
+}
+
+/* .display{
+    background-color: grey;
+} */
+
+.buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid blue;
+    flex-grow: 0;
+}
+
+.number{
+    color: black;
+    background-color: orange;
+    height: 60px;
+    width: 60px;
+    border-radius: 20px;
+}
+
+.operator, .equal{
+    background-color: black;
+    color: white;
+    height: 60px;
+    width: 60px;
+}
+
+.clearing{
+    background-color: white;
+    color: black;
+    height: 60px;
+    width: 60px;
+}
