@@ -12,16 +12,13 @@ const display = document.querySelector("div");
 const point = document.getElementById(".");
 const negative = document.getElementById("negative");
 
-
-
-
 negative.addEventListener("click", ()=>{
-    if(varTwoEnabled==false){
+    if(varTwoEnabled==false){               //We make the first number negative by clicking if there is no second number and operator
         varOne = OppositeConverter(varOne);
         display.textContent=varOne;
     }
 
-    else if (varTwoEnabled==true && varOperator.length != 0){
+    else if (varTwoEnabled==true && varOperator.length != 0){   //Else if there's a second number, we compute its opposite
         varTwo = OppositeConverter(varTwo);
         display.textContent=varOne+varOperator+varTwo;
     }
@@ -49,14 +46,14 @@ del.addEventListener("click", ()=>{
         display.textContent=varOne + varOperator + varTwo;
     }
 
-    else if (varTwo.length==0 && varOperator.length!=0){       //If the 2nd var is empty but non-empty
+    else if (varTwo.length==0 && varOperator.length!=0){       //If the 2nd var is empty but the operator non-empty, we delete the operator
         varOperator = "";
         varTwoEnabled=false;
         display.textContent=varOne;
         if (varOne.includes(".")) {point.disabled=true};
     }
 
-    else if (varOne.length!=0){
+    else if (varOne.length!=0){                                 //Else, we delete a character from the first member
         if (varOne.at(-1)=="."){point.disabled=false};
         varOne = varOne.substring(0, varOne.length-1);
         display.textContent=varOne;
@@ -66,13 +63,11 @@ del.addEventListener("click", ()=>{
 numbers.forEach((x)=>x.addEventListener("click", ()=>{
     if(varTwoEnabled==false){
         varOne += x.id; 
-        console.log(varOne)
         display.textContent=varOne;
     }
 
     else{
         varTwo += x.id;
-        console.log(varTwo);
         display.textContent=varOne + varOperator + varTwo;
     }
 }));
@@ -83,7 +78,6 @@ operators.forEach((x)=>x.addEventListener("click", ()=>{
             varTwoEnabled=true;     //All imput right of the operator is now stored in a second variable
             point.disabled=false;   //We alllow the user to to add "." to the second number
             varOperator=x.id;       
-            console.log(varOperator);
         }
         display.textContent=varOne + varOperator;
     }
@@ -95,34 +89,34 @@ clearing.addEventListener("click", ()=>ClearingFunction());                 //Cl
 
 Addition = function(a,b){
     ClearingFunction();
-    varOne=String(parseFloat(a)+parseFloat(b));
-    if (varOne.includes(".")){point.disabled=true};
+    varOne=String(Math.round((parseFloat(a)+parseFloat(b))*100)/100);
+    if (varOne.includes(".")){point.disabled=true};                        //If the result already contains a ".", we don't allow the user to add another
     display.textContent=`${varOne}`;
 }
 
 Multiplication = function(a,b){
     ClearingFunction();
-    varOne=String(parseFloat(a)*parseFloat(b));
+    varOne=String(Math.round((parseFloat(a)*parseFloat(b))*100)/100);
     if (varOne.includes(".")){point.disabled=true};
     display.textContent=`${varOne}`;
 }
 
 Substraction = function(a,b){
     ClearingFunction();
-    varOne=String(parseFloat(a)-parseFloat(b));
+    varOne=String(Math.round((parseFloat(a)-parseFloat(b))*100)/100);
     if (varOne.includes(".")){point.disabled=true};
     display.textContent=`${varOne}`;
 }
 
 Division = function (a,b){
-    if (b==0){
+    if (b==0){  
         ClearingFunction();
         display.textContent="ERROR";
     }
 
     else{
         ClearingFunction();
-        varOne=String(parseFloat(a)/parseFloat(b));
+        varOne=String(Math.round((parseFloat(a)/parseFloat(b))*100)/100);
         if (varOne.includes(".")){point.disabled=true};
         display.textContent=`${varOne}`;
     }
@@ -138,18 +132,19 @@ ClearingFunction = function (){     //Reset data
 }
 
 Assigning = function(n1, op, n2){   //Depending on the value of "op", apply the right operation
-    if(op=="+"){Addition(n1, n2);}
-    else if (op=="*"){Multiplication(n1, n2);}
-    else if (op=="/"){Division(n1, n2);}
-    else if (op=="-"){Substraction(n1, n2);}
+    if (n2.length != 0){    //Executed only if there is a second member
+        if(op=="+"){Addition(n1, n2);}
+        else if (op=="*"){Multiplication(n1, n2);}
+        else if (op=="/"){Division(n1, n2);}
+        else if (op=="-"){Substraction(n1, n2);}
+    }
 }
 
-OppositeConverter = function(x){
-    if (x.at(0) != "-"){
-        x = "-" + x;
-    }
+OppositeConverter = function(x){       
 
-    else if (x.at(0) == "-"){
+    if (x.at(0) != "-"){ x = "-" + x;}   //If the number is positive, make it negative
+
+    else if (x.at(0) == "-"){   //If the number is negative, make it negative
         new_string = x.replace('-', '');
         x = new_string;
     }
