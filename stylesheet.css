@@ -1,4 +1,4 @@
-*{
+/* *{
     box-sizing: border-box;
 }
 
@@ -10,40 +10,149 @@ body{
     border: 2px solid red;
 }
 
-.calculatorTop{
-    display: flex;
+.display{
+    width: 200px;
+    background-color: lightseagreen;
 }
 
-/* .display{
-    background-color: grey;
+.whole-calculator{
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+    flex-basis: 200px;
+    border: 2px solid purple;
+    justify-content: space-evenly;
+}
+
+.column-one, .column-two, .other, .special{
+    width: 200px;
+    border: 2px solid lime;
+    display: flex;
+    justify-content: space-around;
+}
+
+.column-one > button,
+.column-two > button{
+    background-color: orange;
+    border-radius: 10px;
+}
+
+.other>button{
+    background-color: black;
+    color: white;
+}
+
+.special{
+    justify-content: space-evenly;
+    border: 2px solid blue;
+}
+
+bottom{
+    display: flex;
 } */
 
-.buttons{
+/* Style de base pour le body */
+/* Style de base pour le body */
+
+body {
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 2px solid blue;
-    flex-grow: 0;
+    min-height: 100vh;
+    background-color: #f0f0f5;
+    margin: 0;
+    font-family: Arial, sans-serif;
 }
 
-.number{
-    color: black;
-    background-color: orange;
-    height: 60px;
-    width: 60px;
-    border-radius: 20px;
+/* Conteneur principal de la calculatrice */
+.whole-calculator {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    width: 320px;
+    display: grid;
+    gap: 10px;
 }
 
-.operator, .equal{
-    background-color: black;
-    color: white;
-    height: 60px;
-    width: 60px;
+/* Affichage (écran) de la calculatrice */
+.display {
+    background-color: #222;
+    color: #fff;
+    font-size: 2rem;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: right;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }
 
-.clearing{
-    background-color: white;
-    color: black;
-    height: 60px;
-    width: 60px;
+/* Grille de boutons */
+.calculator-buttons {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+/* Style général des boutons */
+.grid-item {
+    font-size: 1.5rem;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    color: #333;
+}
+
+/* Style pour les boutons numériques */
+.number {
+    background-color: #eee;
+}
+
+/* Style pour le bouton zéro, qui prend deux colonnes */
+.zero {
+    grid-column: span 2;
+}
+
+/* Style des boutons d'opérateurs */
+.operator {
+    background-color: #ff9500;
+    color: #fff;
+}
+
+/* Style du bouton égal */
+.equal {
+    background-color: #34c759;
+    color: #fff;
+}
+
+/* Style pour les boutons spéciaux */
+.clearing,
+.del {
+    background-color: #ff3b30;
+    color: #fff;
+}
+
+/* Effet au survol des boutons */
+.grid-item:hover {
+    background-color: #ddd;
+}
+
+/* Effet spécifique au survol des opérateurs */
+.operator:hover {
+    background-color: #ffa500;
+}
+
+/* Effet spécifique au survol du bouton égal */
+.equal:hover {
+    background-color: #28a745;
+}
+
+/* Effet spécifique au survol des boutons de suppression */
+.clearing:hover,
+.del:hover {
+    background-color: #ff6b6b;
 }
