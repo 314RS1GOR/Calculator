@@ -64,7 +64,7 @@ body {
     font-family: Arial, sans-serif;
 }
 
-/* Conteneur principal de la calculatrice */
+
 .whole-calculator {
     background-color: #333;
     padding: 20px;
@@ -75,7 +75,6 @@ body {
     gap: 10px;
 }
 
-/* Affichage (écran) de la calculatrice */
 .display {
     background-color: #222;
     color: #fff;
@@ -89,14 +88,14 @@ body {
     justify-content: flex-end;
 }
 
-/* Grille de boutons */
+
 .calculator-buttons {
     display: grid;
     gap: 10px;
     grid-template-columns: repeat(4, 1fr);
 }
 
-/* Style général des boutons */
+
 .grid-item {
     font-size: 1.5rem;
     padding: 15px;
@@ -107,51 +106,42 @@ body {
     color: #333;
 }
 
-/* Style pour les boutons numériques */
 .number {
     background-color: #eee;
 }
 
-/* Style pour le bouton zéro, qui prend deux colonnes */
 .zero {
     grid-column: span 2;
 }
 
-/* Style des boutons d'opérateurs */
 .operator {
     background-color: #ff9500;
     color: #fff;
 }
 
-/* Style du bouton égal */
 .equal {
     background-color: #34c759;
     color: #fff;
 }
 
-/* Style pour les boutons spéciaux */
 .clearing,
 .del {
     background-color: #ff3b30;
     color: #fff;
 }
 
-/* Effet au survol des boutons */
 .grid-item:hover {
     background-color: #ddd;
 }
 
-/* Effet spécifique au survol des opérateurs */
 .operator:hover {
     background-color: #ffa500;
 }
 
-/* Effet spécifique au survol du bouton égal */
 .equal:hover {
     background-color: #28a745;
 }
 
-/* Effet spécifique au survol des boutons de suppression */
 .clearing:hover,
 .del:hover {
     background-color: #ff6b6b;
