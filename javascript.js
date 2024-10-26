@@ -1,145 +1,139 @@
-const myNumbers = Array.from(document.getElementsByClassName("number"));
-const myOperators = Array.from(document.getElementsByClassName("operator"));
+let varOne = "";
+let varOperator = "";
+let varTwo = "";
+let varTwoEnabled=false;
+
+const numbers = Array.from(document.getElementsByClassName("number"));
+const operators = Array.from(document.getElementsByClassName("operator"));
 const equal = document.getElementById("=");
 const clearing = document.getElementById("clearing");
-const div = document.querySelector("div");
 const del = document.getElementById("del");
+const display = document.querySelector("div");
 const point = document.getElementById(".");
 
-let string_to_evaluate = "";
-let operatorClickingNumber = 0; //Operator count, if it reaches two we directly proceed to the operation 
-div.textContent="0";
-
-ConcatenationFunction = function(inputValue){   // Function that concatenate the user input
-    string_to_evaluate += inputValue;
-    console.log(string_to_evaluate);
-    div.textContent=string_to_evaluate;
-}
-
-AssigningFunction = function(){               //Function that splits and then call the right function depending on the operation
-
-    if (string_to_evaluate.includes("+")){
-        arraysOfString = string_to_evaluate.split('+');
-        AdditionFunction(parseFloat(arraysOfString[0]), parseFloat(arraysOfString[1]));
+point.addEventListener("click", ()=>{
+    if(varTwoEnabled!=true){
+        varOne += ".";
+        display.textContent=varOne;
     }
 
-    else if (string_to_evaluate.includes("*")){
-        arraysOfString = string_to_evaluate.split('*');
-        MultiplicationFunction(parseFloat(arraysOfString[0]), parseFloat(arraysOfString[1]));
+    else if (varOperator.length != 0 && varTwoEnabled==true) {
+        varTwo += ".";
+        display.textContent=varOne + varOperator + varTwo;
     }
 
-    else if (string_to_evaluate.includes("/")){
-        arraysOfString = string_to_evaluate.split('/');
-        DivisionFunction(parseFloat(arraysOfString[0]), parseFloat(arraysOfString[1]));
+    point.disabled=true;
+});
+
+del.addEventListener("click", ()=>{
+    if (varTwo.length != 0){
+        if (varTwo.at(-1)=="."){point.disabled=false};
+        varTwo = String(varTwo).substring(0, varTwo.length-1);
+        display.textContent=varOne + varOperator + varTwo;
     }
 
-    else{ //Substraction
-        arraysOfString = string_to_evaluate.split("-");
-        SubstractFunction(parseFloat(arraysOfString[0]), parseFloat(arraysOfString[1]));
+    else if (varTwo.length==0 && varOperator.length!=0){
+        varOperator = "";
+        varTwoEnabled=false;
+        display.textContent=varOne;
+        if (String(varOne).includes(".")) {point.disabled=true};
     }
 
-}
+    else if (varOne.length!=0){
+        if (varOne.at(-1)=="."){point.disabled=false};
+        varOne = String(varOne).substring(0, varOne.length-1);
+        display.textContent=varOne;
+    }
+});
 
-AdditionFunction = function(a,b){
-    console.log(a+b);
-    operatorClickingNumber=0;
-    string_to_evaluate = "" + (a+b);
-    div.textContent=string_to_evaluate;
-}
-
-SubstractFunction = function(a,b){
-    console.log(a-b);
-    operatorClickingNumber=0;
-    string_to_evaluate = "" + (a-b);
-    div.textContent=string_to_evaluate;
-}
-
-MultiplicationFunction = function(a,b){
-    console.log(a*b);
-    operatorClickingNumber=0;
-    string_to_evaluate = "" + (a*b);
-    div.textContent=string_to_evaluate;
-}
-
-DivisionFunction = function (a,b){
-
-    operatorClickingNumber=0;
-
-    if (b==0){
-        div.textContent = "ERROR";
+numbers.forEach((x)=>x.addEventListener("click", ()=>{
+    if(varTwoEnabled==false){
+        varOne += x.id; 
+        console.log(varOne)
+        display.textContent=varOne;
     }
 
     else{
-        console.log(a/b);
-        string_to_evaluate = "" + (a/b);
-        div.textContent=string_to_evaluate;
+        varTwo += x.id;
+        console.log(varTwo);
+        display.textContent=varOne + varOperator + varTwo;
     }
-}
+}));
 
-ClearingFunction = function(){
-    string_to_evaluate="";
-    div.textContent="0";
-    operatorClickingNumber=0;
-    point.disabled=false;
-}
-
-myNumbers.forEach((number)=>{   //Concatenate NUMBERS on click
-    number.addEventListener("click", ()=>{
-            ConcatenationFunction(number.id);
-        });
-});
-
-myOperators.forEach((operator)=>{   //Concatenate OPERATORS on click
-    operator.addEventListener("click", ()=>{
-            ++operatorClickingNumber;
+operators.forEach((x)=>x.addEventListener("click", ()=>{
+    if (varOperator.length==0){
+        if(varTwoEnabled==false){
+            varTwoEnabled=true;
             point.disabled=false;
-            if (operatorClickingNumber==2){
-                    operatorClickingNumber=0;
-                    AssigningFunction();
-            }
-            else{
-                ConcatenationFunction(operator.id);
-            }
-        });
-});
+            varOperator=x.id;
+            console.log(varOperator);
+        }
+        display.textContent=varOne + varOperator;
+    }
+}));
 
-equal.addEventListener("click", ()=>{   //Call function that will then apply the right operation
-    AssigningFunction();
-});
+equal.addEventListener("click", ()=>Assigning(varOne, varOperator, varTwo));
 
-clearing.addEventListener("click", ()=>{
+clearing.addEventListener("click", ()=>ClearingFunction());
+
+Addition = function(a,b){
     ClearingFunction();
-})
+    varOne=parseFloat(a)+parseFloat(b);
+    if (String(varOne).includes(".")){point.disabled=true};
+    display.textContent=`${varOne}`;
+}
 
-del.addEventListener("click", ()=>{
-    if (string_to_evaluate.length>0){ // We delete only if there is something to be deleted
-        if (string_to_evaluate.at(-1)=="+" || string_to_evaluate.at(-1) || string_to_evaluate.at(-1)=="*" || string_to_evaluate.at(-1)=="/"){
-            --operatorClickingNumber; //if we delete an operator, we decrease the operator count
-        }
+Multiplication = function(a,b){
+    ClearingFunction();
+    varOne=parseFloat(a)*parseFloat(b);
+    if (String(varOne).includes(".")){point.disabled=true};
+    display.textContent=`${varOne}`;
+}
 
-        if (string_to_evaluate.at(-1)){ //We allow to click on "point" again if we delete a point
-            point.disabled=false;
-        }
+Substraction = function(a,b){
+    ClearingFunction();
+    varOne=parseFloat(a)-parseFloat(b);
+    if (String(varOne).includes(".")){point.disabled=true};
+    display.textContent=`${varOne}`;
+}
 
-        string_to_evaluate = string_to_evaluate.substring(0, string_to_evaluate.length - 1);
+Division = function (a,b){
+    ClearingFunction();
+    varOne=parseFloat(a)/parseFloat(b);
+    if (String(varOne).includes(".")){point.disabled=true};
+    display.textContent=`${varOne}`;
+}
 
-        if (string_to_evaluate.length==0){
-            div.textContent="0";
-        }
+ClearingFunction = function (){
+    varOne = "";
+    varTwo = "";
+    varOperator="";
+    varTwoEnabled=false;
+    point.disabled=false;
+    display.textContent="0";
+}
 
-        else{
-            div.textContent = string_to_evaluate;
-        }
-            
+Assigning = function(n1, op, n2){
+    if(op=="+"){
+        Addition(n1, n2);
+        op="";
+    }
+
+    else if (op=="*"){
+        Multiplication(n1, n2);
+        op="";
+    }
+
+    else if (op=="/"){
+        Division(n1, n2);
+        op="";
+    }
+
+    else if (op=="-"){
+        Substraction(n1, n2);
+        op="";
     }
 }
-);
 
-point.addEventListener("click", ()=>{
-    ConcatenationFunction(".");
-    
-    if (string_to_evaluate.includes(".")){
-        point.disabled=true;
-    }
-});
+
 
