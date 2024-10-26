@@ -132,7 +132,8 @@ ClearingFunction = function (){     //Reset data
 }
 
 Assigning = function(n1, op, n2){   //Depending on the value of "op", apply the right operation
-    if (n2.length != 0){    //Executed only if there is a second member
+     
+    if (n2.length != 0  && n2 != "-"){    //Executed only if there is a second member and if it's not just a negative sign
         if(op=="+"){Addition(n1, n2);}
         else if (op=="*"){Multiplication(n1, n2);}
         else if (op=="/"){Division(n1, n2);}
