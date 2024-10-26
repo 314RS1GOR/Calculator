@@ -26,22 +26,22 @@ point.addEventListener("click", ()=>{
 });
 
 del.addEventListener("click", ()=>{
-    if (varTwo.length != 0){
+    if (varTwo.length != 0){                                    //If the second variable is non-empty, we delete from there first
         if (varTwo.at(-1)=="."){point.disabled=false};
-        varTwo = String(varTwo).substring(0, varTwo.length-1);
+        varTwo = varTwo.substring(0, varTwo.length-1);
         display.textContent=varOne + varOperator + varTwo;
     }
 
-    else if (varTwo.length==0 && varOperator.length!=0){
+    else if (varTwo.length==0 && varOperator.length!=0){       //If the 2nd var is empty but non-empty
         varOperator = "";
         varTwoEnabled=false;
         display.textContent=varOne;
-        if (String(varOne).includes(".")) {point.disabled=true};
+        if (varOne.includes(".")) {point.disabled=true};
     }
 
     else if (varOne.length!=0){
         if (varOne.at(-1)=="."){point.disabled=false};
-        varOne = String(varOne).substring(0, varOne.length-1);
+        varOne = varOne.substring(0, varOne.length-1);
         display.textContent=varOne;
     }
 });
@@ -61,50 +61,57 @@ numbers.forEach((x)=>x.addEventListener("click", ()=>{
 }));
 
 operators.forEach((x)=>x.addEventListener("click", ()=>{
-    if (varOperator.length==0){
+    if (varOperator.length==0){ //The button works only if there is no operator active i.e the operator string is empty
         if(varTwoEnabled==false){
-            varTwoEnabled=true;
-            point.disabled=false;
-            varOperator=x.id;
+            varTwoEnabled=true;     //All imput right of the operator is now stored in a second variable
+            point.disabled=false;   //We alllow the user to to add "." to the second number
+            varOperator=x.id;       
             console.log(varOperator);
         }
         display.textContent=varOne + varOperator;
     }
 }));
 
-equal.addEventListener("click", ()=>Assigning(varOne, varOperator, varTwo));
+equal.addEventListener("click", ()=>Assigning(varOne, varOperator, varTwo)); //When we click on "equal" => calls assigning function
 
-clearing.addEventListener("click", ()=>ClearingFunction());
+clearing.addEventListener("click", ()=>ClearingFunction());                 //Clicking on "C" reset data
 
 Addition = function(a,b){
     ClearingFunction();
-    varOne=parseFloat(a)+parseFloat(b);
-    if (String(varOne).includes(".")){point.disabled=true};
+    varOne=String(parseFloat(a)+parseFloat(b));
+    if (varOne.includes(".")){point.disabled=true};
     display.textContent=`${varOne}`;
 }
 
 Multiplication = function(a,b){
     ClearingFunction();
-    varOne=parseFloat(a)*parseFloat(b);
-    if (String(varOne).includes(".")){point.disabled=true};
+    varOne=String(parseFloat(a)*parseFloat(b));
+    if (varOne.includes(".")){point.disabled=true};
     display.textContent=`${varOne}`;
 }
 
 Substraction = function(a,b){
     ClearingFunction();
-    varOne=parseFloat(a)-parseFloat(b);
-    if (String(varOne).includes(".")){point.disabled=true};
+    varOne=String(parseFloat(a)-parseFloat(b));
+    if (varOne.includes(".")){point.disabled=true};
     display.textContent=`${varOne}`;
 }
 
 Division = function (a,b){
-    ClearingFunction();
-    varOne=parseFloat(a)/parseFloat(b);
-    if (String(varOne).includes(".")){point.disabled=true};
-    display.textContent=`${varOne}`;
+    if (b==0){
+        ClearingFunction();
+        display.textContent="ERROR";
+    }
+
+    else{
+        ClearingFunction();
+        varOne=String(parseFloat(a)/parseFloat(b));
+        if (varOne.includes(".")){point.disabled=true};
+        display.textContent=`${varOne}`;
+    }
 }
 
-ClearingFunction = function (){
+ClearingFunction = function (){     //Reset data
     varOne = "";
     varTwo = "";
     varOperator="";
@@ -113,26 +120,11 @@ ClearingFunction = function (){
     display.textContent="0";
 }
 
-Assigning = function(n1, op, n2){
-    if(op=="+"){
-        Addition(n1, n2);
-        op="";
-    }
-
-    else if (op=="*"){
-        Multiplication(n1, n2);
-        op="";
-    }
-
-    else if (op=="/"){
-        Division(n1, n2);
-        op="";
-    }
-
-    else if (op=="-"){
-        Substraction(n1, n2);
-        op="";
-    }
+Assigning = function(n1, op, n2){   //Depending on the value of "op", apply the right operation
+    if(op=="+"){Addition(n1, n2);}
+    else if (op=="*"){Multiplication(n1, n2);}
+    else if (op=="/"){Division(n1, n2);}
+    else if (op=="-"){Substraction(n1, n2);}
 }
 
 
