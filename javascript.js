@@ -10,6 +10,23 @@ const clearing = document.getElementById("clearing");
 const del = document.getElementById("del");
 const display = document.querySelector("div");
 const point = document.getElementById(".");
+const negative = document.getElementById("negative");
+
+
+
+
+negative.addEventListener("click", ()=>{
+    if(varTwoEnabled==false){
+        varOne = OppositeConverter(varOne);
+        display.textContent=varOne;
+    }
+
+    else if (varTwoEnabled==true && varOperator.length != 0){
+        varTwo = OppositeConverter(varTwo);
+        display.textContent=varOne+varOperator+varTwo;
+    }
+        
+})
 
 point.addEventListener("click", ()=>{
     if(varTwoEnabled!=true){
@@ -127,5 +144,17 @@ Assigning = function(n1, op, n2){   //Depending on the value of "op", apply the 
     else if (op=="-"){Substraction(n1, n2);}
 }
 
+OppositeConverter = function(x){
+    if (x.at(0) != "-"){
+        x = "-" + x;
+    }
+
+    else if (x.at(0) == "-"){
+        new_string = x.replace('-', '');
+        x = new_string;
+    }
+
+    return x;
+}
 
 
